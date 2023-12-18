@@ -58,18 +58,19 @@ function EditProductScreen() {
 
   function submitHandler(e) {
     e.preventDefault();
-    dispatch(
-      updateProduct({
-        id,
-        name,
-        price,
-        description,
-        image,
-        brand,
-        category,
-        countInStock,
-      })
-    );
+    if (window.confirm("Do you want to update this product?"))
+      dispatch(
+        updateProduct({
+          id,
+          name,
+          price,
+          description,
+          image,
+          brand,
+          category,
+          countInStock,
+        })
+      );
   }
 
   function selectOptions(opts) {

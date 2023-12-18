@@ -27,7 +27,8 @@ const EditBrandScreen = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateBrand({ id, name }));
+    if (window.confirm("Do you want to update this brand?"))
+      dispatch(updateBrand({ id, name }));
   };
   console.log("««««« name »»»»»", name);
   return (

@@ -55,17 +55,18 @@ function CreateProductScreen() {
   function submitHandler(e) {
     e.preventDefault();
     // if (imageUploaded)
-    dispatch(
-      createProduct({
-        name,
-        price,
-        description,
-        image,
-        brand,
-        category,
-        countInStock,
-      })
-    );
+    if (window.confirm("Do you want to add this product?"))
+      dispatch(
+        createProduct({
+          name,
+          price,
+          description,
+          image,
+          brand,
+          category,
+          countInStock,
+        })
+      );
   }
 
   async function uploadFileHandler(e) {
