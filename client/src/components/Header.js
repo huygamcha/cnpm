@@ -23,7 +23,7 @@ function Header() {
   const navigate = useNavigate();
 
   let cartItems = JSON.parse(localStorage.getItem("cart"));
-
+  console.log("««««« userInfo123 »»»»»", userInfo);
   useEffect(() => {
     //do something else
     cartItems = localStorage.getItem("cart");
@@ -64,7 +64,7 @@ function Header() {
                 }
                 id="username"
               >
-                <LinkContainer to="/profile">
+                <LinkContainer to={`/profile/${userInfo._id}`}>
                   <NavDropdown.Item>
                     <i class="fa-solid fa-user"></i> Profile
                   </NavDropdown.Item>

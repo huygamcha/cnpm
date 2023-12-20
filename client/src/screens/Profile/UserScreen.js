@@ -52,7 +52,7 @@ function UserScreen() {
       );
     }
   }
-
+  console.log("«««««  userInfo»»»»»", userInfo);
   async function uploadFileHandler(e) {
     const file = e.target.files[0];
     const formData = new FormData();

@@ -12,14 +12,14 @@ const updateUser = createAsyncThunk(
         Authorization: `Bearer ${currentUser.token}`,
       },
     };
-
     const { data } = await axios.put(
-      `/api/users/profile`,
+      // `/api/users/profile`,
+      `/api/users/profile/${id}`,
       {
         name,
         email,
         password,
-        avatar,
+        // avatar,
       },
       config
     );

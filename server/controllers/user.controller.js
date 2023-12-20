@@ -1,7 +1,6 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/user.model.js";
 import generateToken from "../utils/generateToken.js";
-import { mongoose } from "mongoose";
 const pageSize = 20;
 
 const getUserProfile = asyncHandler(async (req, res) => {
@@ -22,7 +21,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.params.id);
 
   if (user) {
     user.name = req.body.name || user.name;
