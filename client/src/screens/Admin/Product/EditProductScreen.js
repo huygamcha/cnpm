@@ -43,8 +43,6 @@ function EditProductScreen() {
         dispatch(fetchProductById(id));
         dispatch(getAllBrands());
         dispatch(getAllCategories());
-
-        setBrand(value1?.name);
       } else {
         setName(product.name);
         setPrice(product.price);
@@ -106,13 +104,13 @@ function EditProductScreen() {
       setImageUploaded(false);
     }
   }
-  const value1 = brands.find((brandIndex) => brandIndex._id === brand);
-  if (value1?.name) setBrand(value1?.name);
+  let value1 = brands.find((brandIndex) => brandIndex._id === brand);
+  const brandDefault = value1?.name;
 
   const value2 = categories.find(
     (categoryIndex) => categoryIndex._id === category
   );
-  if (value2?.name) setCategory(value2?.name);
+  const categoryDefault = value2?.name;
   return (
     <>
       <Meta title="Edit Product" />
@@ -146,6 +144,17 @@ function EditProductScreen() {
                   onChange={(e) => setPrice(e.target.value)}
                 ></Form.Control>
               </Form.Group>
+              <Form.Group controlId="salegroup" className="mb-3" as={Col}>
+                <Form.Label>Sale Percentage</Form.Label>
+                <InputGroup controlId="sale" className="mb-3">
+                  <Form.Control
+                    placeholder="Enter sale percentage"
+                    value={sale}
+                    onChange={(e) => setSale(e.target.value)}
+                  ></Form.Control>
+                  <InputGroup.Text>%</InputGroup.Text>
+                </InputGroup>
+              </Form.Group>
             </Row>
             <Form.Group controlId="image" className="mb-3">
               <Form.Label>Image URL</Form.Label>
@@ -163,7 +172,7 @@ function EditProductScreen() {
               <Form.Label>Brand</Form.Label>
               <Form.Select onChange={(e) => setBrand(e.target.value)}>
                 <option defaultValue={brand} value="">
-                  {brand}
+                  {brandDefault}
                 </option>
                 {selectOptions(brands)}
               </Form.Select>
@@ -175,9 +184,7 @@ function EditProductScreen() {
             <Form.Group controlId="category" className="mb-3">
               <Form.Label>Category</Form.Label>
               <Form.Select onChange={(e) => setCategory(e.target.value)}>
-                <option defaultValue={category} value="">
-                  {category}
-                </option>
+                <option value="">{categoryDefault}</option>
                 {selectOptions(categories)}
               </Form.Select>
               <Form.Text>
@@ -203,10 +210,10 @@ function EditProductScreen() {
                 onChange={(e) => setCountInStock(e.target.value)}
               ></Form.Control>
             </Form.Group>
-            {/* <Form.Group className="mb-3">
+            <Form.Group className="mb-3">
               <Form.Label>Sizes</Form.Label>
               <p>None</p>
-            </Form.Group> */}
+            </Form.Group>
             <Button type="submit" className="my-3">
               Update
             </Button>
