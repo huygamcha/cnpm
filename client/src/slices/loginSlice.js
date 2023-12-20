@@ -1,15 +1,35 @@
 import axios from "axios";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  rejectWithValue,
+  isRejectedWithValue,
+} from "@reduxjs/toolkit";
 
-const loginUser = createAsyncThunk("loginUser", async ({ email, password }) => {
-  const config = {
-    headers: {
-      "Content-Types": "application/json",
-    },
-  };
-  const { data } = await axios.post(`/api/auth`, { email, password }, config);
-  return data;
-});
+const loginUser = createAsyncThunk(
+  "loginUser",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Types": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        `/api/auth`,
+        { email, password },
+        config
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
 
 const currentUser = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -43,7 +63,12 @@ const loginSlice = createSlice({
     builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
       state.userInfo = null;
-      state.error = action.error.message;
+      // state.error = action.error.message;
+      if (action.payload) {
+        state.error = action.payload.message;
+      } else {
+        state.error = "An error occurred.";
+      }
     });
   },
 });

@@ -35,6 +35,7 @@ function EditProductScreen() {
   const [description, setDescription] = useState("");
   const [countInStock, setCountInStock] = useState(0);
   const [imageUploaded, setImageUploaded] = useState(false);
+  const [brandInfo, setBrandInfo] = useState(null);
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -42,6 +43,8 @@ function EditProductScreen() {
         dispatch(fetchProductById(id));
         dispatch(getAllBrands());
         dispatch(getAllCategories());
+
+        setBrand(value1?.name);
       } else {
         setName(product.name);
         setPrice(product.price);
@@ -103,7 +106,13 @@ function EditProductScreen() {
       setImageUploaded(false);
     }
   }
+  const value1 = brands.find((brandIndex) => brandIndex._id === brand);
+  if (value1?.name) setBrand(value1?.name);
 
+  const value2 = categories.find(
+    (categoryIndex) => categoryIndex._id === category
+  );
+  if (value2?.name) setCategory(value2?.name);
   return (
     <>
       <Meta title="Edit Product" />
@@ -137,17 +146,6 @@ function EditProductScreen() {
                   onChange={(e) => setPrice(e.target.value)}
                 ></Form.Control>
               </Form.Group>
-              <Form.Group controlId="salegroup" className="mb-3" as={Col}>
-                <Form.Label>Sale Percentage</Form.Label>
-                <InputGroup controlId="sale" className="mb-3">
-                  <Form.Control
-                    placeholder="Enter sale percentage"
-                    value={sale}
-                    onChange={(e) => setSale(e.target.value)}
-                  ></Form.Control>
-                  <InputGroup.Text>%</InputGroup.Text>
-                </InputGroup>
-              </Form.Group>
             </Row>
             <Form.Group controlId="image" className="mb-3">
               <Form.Label>Image URL</Form.Label>
@@ -164,7 +162,9 @@ function EditProductScreen() {
             <Form.Group controlId="brand" className="mb-3">
               <Form.Label>Brand</Form.Label>
               <Form.Select onChange={(e) => setBrand(e.target.value)}>
-                <option value="">Choose a Brand</option>
+                <option defaultValue={brand} value="">
+                  {brand}
+                </option>
                 {selectOptions(brands)}
               </Form.Select>
               <Form.Text>
@@ -175,7 +175,9 @@ function EditProductScreen() {
             <Form.Group controlId="category" className="mb-3">
               <Form.Label>Category</Form.Label>
               <Form.Select onChange={(e) => setCategory(e.target.value)}>
-                <option value="">Choose a Cateogry</option>
+                <option defaultValue={category} value="">
+                  {category}
+                </option>
                 {selectOptions(categories)}
               </Form.Select>
               <Form.Text>
@@ -201,10 +203,10 @@ function EditProductScreen() {
                 onChange={(e) => setCountInStock(e.target.value)}
               ></Form.Control>
             </Form.Group>
-            <Form.Group className="mb-3">
+            {/* <Form.Group className="mb-3">
               <Form.Label>Sizes</Form.Label>
               <p>None</p>
-            </Form.Group>
+            </Form.Group> */}
             <Button type="submit" className="my-3">
               Update
             </Button>

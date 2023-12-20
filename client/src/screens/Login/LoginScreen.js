@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import FormContainer from "../../components/FormContainer";
 import { loginUser } from "../../slices/loginSlice";
-import Message from "../../components/Message";
 import Meta from "../../components/Meta";
+import Message from "../../components/Message";
 
 function LoginScreen() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [errorText, setErrorText] = useState("");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,11 +24,20 @@ function LoginScreen() {
     if (userInfo) navigate(`${redirect}`);
   }, [userInfo, redirect, navigate]);
 
+  useEffect(() => {
+    if (error) {
+      const errorMessage =
+        error.message || "An error occurred. Please try again.";
+      setErrorText(errorMessage);
+    }
+  }, [error]);
+
   function submitHandler(e) {
     e.preventDefault();
     dispatch(loginUser({ email: email, password: password }));
   }
 
+  console.log("««««« error »»»»»", error);
   return (
     <>
       <Meta title="Login" />

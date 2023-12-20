@@ -32,6 +32,7 @@ import SaleScreen from "./screens/Explore/SaleScreen";
 import BrandScreen from "./screens/Explore/BrandScreen";
 import CategoryScreen from "./screens/Explore/CategoryScreen";
 import ExploreScreen from "./screens/Explore/ExploreScreen";
+import Dashboard from "./screens/Admin/Dashboard";
 
 function App() {
   return (
@@ -65,6 +66,10 @@ function App() {
 
             {/***************  Admin Routes ***************/}
             {/**** Users */}
+            <Route
+              path="/admin/dashboard"
+              element={<Dashboard></Dashboard>}
+            ></Route>
             <Route path="/admin/users" element={<UsersListScreen />} />
             <Route path="/admin/user/:id" element={<EditUserScreen />} />
 
